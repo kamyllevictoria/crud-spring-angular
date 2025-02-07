@@ -23,10 +23,7 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.coursesService.list().subscribe(data => {
-      this.courses = data;
-      console.log('Cursos carregados:', data);
-    })*/
+
   }
 
 }
