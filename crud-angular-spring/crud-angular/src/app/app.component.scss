@@ -1,0 +1,14 @@
+$primary-color: #880E4F;
+$secondary-color: #F8BBD0;
+$warn-color: #B71C1C;
+
+
+$white-text-color: white;
+$black-text-color: black;
+
+@use '@angular/material' as mat;
+
+mat-toolbar {
+  background-color: $primary-color;
+  color: $white-text-color;
+}
