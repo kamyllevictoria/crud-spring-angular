@@ -22,7 +22,7 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private coursesService: CoursesService,
-    public dialog: MatDialog
+    private dialog: MatDialog
 
   ) {
     this.courses$ = this.coursesService.list()
