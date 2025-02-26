@@ -4,11 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HelloworldApplication {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HelloworldApplication.class, args);
-		System.out.println("Ola, esse e meu primeiro projeto em spring!");
+
+		SpringApplication.run(DemoApplication.class, args);
+		System.out.println("Ola, mundo em spring!");
 	}
 
 }
