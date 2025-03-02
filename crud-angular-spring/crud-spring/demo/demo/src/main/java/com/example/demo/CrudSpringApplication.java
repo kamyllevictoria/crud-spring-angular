@@ -1,3 +1,4 @@
+
 package com.example.demo;
 
 import com.example.demo.model.Course;
@@ -15,9 +16,9 @@ public class CrudSpringApplication {
 	}
 
 	@Bean
-	CommandLineRunner initDatabase(CourseRepository courseRepository){
+	CommandLineRunner initDatabase(CourseRepository courseRepository) {
 
-		return args ->{
+		return args -> {
 
 			courseRepository.deleteAll();
 
@@ -25,7 +26,7 @@ public class CrudSpringApplication {
 			c.setName("Angular with Spring");
 			c.setCategory("Frontend");
 
-			courseRepository.save(c); //registro no banco de dados parte 2, teste de git e versionamento
+			courseRepository.save(c); //registro no banco de dados parte 1
 		};
 	}
 
