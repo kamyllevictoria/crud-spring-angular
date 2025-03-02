@@ -25,7 +25,7 @@ public class CrudSpringApplication {
 			c.setName("Angular with Spring");
 			c.setCategory("Frontend");
 
-			courseRepository.save(c); //registro no banco de dados parte 1
+			courseRepository.save(c); //registro no banco de dados parte 2, teste de git e versionamento
 		};
 	}
 
