@@ -1,11 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-
 
 @Entity
 public class Course {
@@ -14,12 +10,14 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 200, nullable = false) //associacao com tabelas no bd
+    @Column(length = 200, nullable = false)
     private String name;
 
     @Column(length = 10, nullable = false)
     private String category;
 
+    // Getter personalizado para exibir como "_id"
+    @JsonProperty("_id")
     public Long getId() {
         return id;
     }
