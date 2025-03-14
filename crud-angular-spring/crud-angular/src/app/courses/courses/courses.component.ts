@@ -38,16 +38,6 @@ export class CoursesComponent implements OnInit {
       data: errorMsg
     });
   }
-
-  editCourse(course: Course): void {
-    // Implementar lógica de edição
-    console.log('Editar curso:', course);
-  }
-
-  deleteCourse(course: Course): void {
-    // Implementar lógica de exclusão
-    console.log('Deletar curso:', course);
-  }
   ngOnInit(): void {
 
   }

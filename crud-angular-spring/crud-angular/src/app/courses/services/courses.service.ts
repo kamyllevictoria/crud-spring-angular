@@ -14,11 +14,12 @@ export class CoursesService {
   constructor(private httpClient: HttpClient) {}
 
   list(){
+    console.log("Chamando API...");
     return this.httpClient.get<Course[]>(this.API).
     pipe(
       first(),
       delay(5000),
-      tap(courses => console.log(courses))
+      tap(courses => console.log("Cursos recebidos:", courses))
     );
   }
 
