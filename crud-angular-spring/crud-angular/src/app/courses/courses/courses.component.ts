@@ -18,8 +18,7 @@ export class CoursesComponent implements OnInit {
 
   courses$: Observable<Course[]>;
 
-  displayedColumns = ['_id', 'name', 'category'];
-
+  displayedColumns = ['_id', 'name', 'category', 'actions'];
   constructor(
     private coursesService: CoursesService,
     private dialog: MatDialog
@@ -40,9 +39,17 @@ export class CoursesComponent implements OnInit {
     });
   }
 
+  editCourse(course: Course): void {
+    // Implementar lógica de edição
+    console.log('Editar curso:', course);
+  }
+
+  deleteCourse(course: Course): void {
+    // Implementar lógica de exclusão
+    console.log('Deletar curso:', course);
+  }
   ngOnInit(): void {
 
   }
 
 }
-

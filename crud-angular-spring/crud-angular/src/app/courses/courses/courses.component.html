@@ -21,9 +21,32 @@
         <td mat-cell *matCellDef="let course">
           {{ course.category }}
           <mat-icon aria-hidden="false" aria-label="course category"> {{course.category | category}} </mat-icon>
-
         </td>
       </ng-container>
+
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="vertical-buttons">
+            <button mat-mini-fab color="primary" aria-label="Adicionar curso">
+              <mat-icon>add</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="accent" aria-label="Editar curso">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="warn" aria-label="Excluir curso">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let course">
+        </td>
+      </ng-container>
+
+
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -36,3 +59,6 @@
     </div>
   </ng-template>
 </mat-card>
+
+
+
