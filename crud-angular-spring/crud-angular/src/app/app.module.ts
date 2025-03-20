@@ -9,11 +9,14 @@ import { AppComponent } from './app.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { CoursesComponent } from './courses/courses/courses.component';
+import { ErrorDialogComponent } from './shared/components/error-dialog/error-dialog.component';
+import { CategoryPipe } from './shared/pipes/category.pipe';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

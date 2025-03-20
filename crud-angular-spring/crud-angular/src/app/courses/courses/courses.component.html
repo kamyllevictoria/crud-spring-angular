@@ -30,7 +30,7 @@
         <th mat-header-cell *matHeaderCellDef>
           <div class="vertical-buttons">
             <button mat-mini-fab color="primary" aria-label="Adicionar curso">
-              <mat-icon>add</mat-icon>
+              <mat-icon (click)="onAdd()" >add</mat-icon>
             </button>
 
             <button mat-mini-fab color="accent" aria-label="Editar curso">

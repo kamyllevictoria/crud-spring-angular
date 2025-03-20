@@ -1,25 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Course } from '../model/course';
-import { HttpClient } from '@angular/common/http';
-import { delay, first, tap } from 'rxjs/operators';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { delay, first, tap, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class CoursesService {
+  private readonly API = 'http://localhost:8080/api/courses';
 
-  private readonly API = 'api/courses';
   constructor(private httpClient: HttpClient) {}
 
-  list(){
-    console.log("Chamando API...");
-    return this.httpClient.get<Course[]>(this.API).
-    pipe(
+  list(): Observable<Course[]> {
+    console.log("Chamando API:", this.API);
+
+    // headers
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    return this.httpClient.get<Course[]>(this.API, { headers })
+    .pipe(
       first(),
       delay(5000),
-      tap(courses => console.log("Cursos recebidos:", courses))
+      tap(courses => {
+        console.log("Cursos recebidos:", courses);
+      }),
+      catchError(error => {
+        console.error("Erro na API:", error);
+        throw error; 
+      })
     );
   }
 
