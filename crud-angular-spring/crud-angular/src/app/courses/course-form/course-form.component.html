@@ -1,1 +1,32 @@
-<p>course-form works!</p>
+
+<mat-card class="matCardMargin">
+  <mat-toolbar class="matToolBar">
+    Create new course:
+  </mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="form">
+      <mat-form-field class="form-field-margin">
+        <mat-label>ID: </mat-label>
+        <input matInput placeholder="Enter id: " formControlName="_id">
+      </mat-form-field>
+
+      <mat-form-field class="form-field-margin">
+        <mat-label>Name:</mat-label>
+        <input matInput placeholder="Enter name: " formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class="form-field-margin">
+        <mat-label>Category:</mat-label>
+        <input matInput placeholder="Enter category: " formControlCategory="category">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+</mat-card>
+
+
+
+
+
+

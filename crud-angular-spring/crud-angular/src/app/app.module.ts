@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CoursesComponent } from './courses/courses/courses.component';
 import { ErrorDialogComponent } from './shared/components/error-dialog/error-dialog.component';
 import { CategoryPipe } from './shared/pipes/category.pipe';
-
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { CategoryPipe } from './shared/pipes/category.pipe';
     HttpClientModule,
     MatTableModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ],
   providers: [
     provideAnimationsAsync()
