@@ -4,24 +4,28 @@
     Create new course:
   </mat-toolbar>
 
-  <mat-card-content>
+  <mat-card-content class="matCardContentMargin">
     <form [formGroup]="form">
-      <mat-form-field class="form-field-margin">
+      <mat-form-field class="form-field-margin full-width first-field">
         <mat-label>ID: </mat-label>
         <input matInput placeholder="Enter id: " formControlName="_id">
       </mat-form-field>
 
-      <mat-form-field class="form-field-margin">
+      <mat-form-field class="form-field-margin full-width first-field">
         <mat-label>Name:</mat-label>
         <input matInput placeholder="Enter name: " formControlName="name">
       </mat-form-field>
 
-      <mat-form-field class="form-field-margin">
+      <mat-form-field class="form-field-margin full-width first-field">
         <mat-label>Category:</mat-label>
         <input matInput placeholder="Enter category: " formControlCategory="category">
       </mat-form-field>
     </form>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button class="save-button" (click)="onSubmit()">Save</button>
+    <button mat-raised-button class="cancel-button" (click)="onCancel()">Cancel</button>
+  </mat-card-actions>
 
 </mat-card>
 

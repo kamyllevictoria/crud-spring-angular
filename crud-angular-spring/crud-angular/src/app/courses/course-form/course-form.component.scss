@@ -1,5 +1,9 @@
 .form-field-margin{
-  margin: 10px 10px 10px 0px;
+  margin: 10px 0px 10px 0px;
+}
+
+.toolBarTittle{
+  margin-bottom: 10px;
 }
 
 .matCardMargin{
@@ -9,4 +13,57 @@
 .matToolBar{
   background-color: rgb(218, 167, 192) ;
   color: white;
+}
+
+.full-width {
+  display: block;
+  width: 100%;
+}
+
+
+mat-form-field.form-field-margin:first-of-type {
+  margin-top: 24px;
+}
+
+.first-field {
+  margin-top: 24px;
+}
+
+
+mat-card {
+  width: 80%;
+  margin: 2rem auto;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+
+.save-button{
+  background-color: #9bd8f0 !important;
+  color: black !important;
+}
+
+.save-button:hover{
+  background-color: #31b1e4 !important;
+  color: black !important;
+}
+
+.cancel-button{
+  background-color: #f09b9b !important;
+  color: black !important;
+}
+
+.cancel-button:hover{
+  background-color: #e72c2c !important;
+  color: white !important;
 }

@@ -11,7 +11,7 @@ table{
   justify-content: center;
 }
 
-/* Estilo para os botões verticais */
+
 .vertical-buttons {
   display: flex;
   flex-direction: column;
@@ -19,15 +19,17 @@ table{
   padding: 8px 0;
 }
 
-/* Ajuste para a coluna de ações */
 .mat-column-actions {
   width: 80px;
   vertical-align: top;
 }
 
-/* Ajuste para o cabeçalho da coluna de ações */
+
 th.mat-header-cell:last-of-type {
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
+.full-width{
+  width: auto;
+}
