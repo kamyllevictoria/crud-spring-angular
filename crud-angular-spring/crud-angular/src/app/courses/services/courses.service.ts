@@ -30,9 +30,14 @@ export class CoursesService {
       }),
       catchError(error => {
         console.error("Erro na API:", error);
-        throw error; 
+        throw error;
       })
     );
+  }
+
+  save(record: Course){
+    console.log(record)
+    return this.httpClient.post<Course>(this.API, record).pipe(first());
   }
 
 }

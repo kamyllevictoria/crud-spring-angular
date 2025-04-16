@@ -18,13 +18,19 @@
 
       <mat-form-field class="form-field-margin full-width first-field">
         <mat-label>Category:</mat-label>
-        <input matInput placeholder="Enter category: " formControlCategory="category">
+        <mat-select formControlName="category">
+          <mat-option value="null"></mat-option>
+          <mat-option value="frontend">Front-end</mat-option>
+          <mat-option value="backend">Back-end</mat-option>
+          <mat-option value="backend">Devops</mat-option>
+        </mat-select>
       </mat-form-field>
+
     </form>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button class="save-button" (click)="onSubmit()">Save</button>
-    <button mat-raised-button class="cancel-button" (click)="onCancel()">Cancel</button>
+    <button mat-raised-button class="cancel-button" (click)="onCancel()" >Cancel</button>
   </mat-card-actions>
 
 </mat-card>
