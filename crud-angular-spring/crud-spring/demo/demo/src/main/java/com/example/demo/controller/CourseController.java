@@ -24,7 +24,6 @@ public class CourseController {
 
     }
 
-    //@RequestMapping(method = RequestMethod.POST)
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Course create(@RequestBody Course course){

@@ -47,6 +47,16 @@ export class CoursesComponent implements OnInit {
   ngOnInit(): void {
 
   }
+  getCategoryIcon(category: string): string {
+    if (category === "Frontend") {
+      return "code"
+    } else if (category === "Backend") {
+      return "computer"
+      return "data_usage"
+    } else {
+      return "school"
+    }
+  }
 
   onError(errorMsg: string) {
     this.dialog.open(ErrorDialogComponent, {
@@ -57,4 +67,5 @@ export class CoursesComponent implements OnInit {
   onAdd(){
     this.router.navigate(['new'], {relativeTo: this.route})
   }
+
 }
