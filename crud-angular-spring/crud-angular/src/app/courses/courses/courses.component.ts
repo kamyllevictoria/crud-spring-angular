@@ -8,7 +8,7 @@ import { MatDialog} from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -28,6 +28,7 @@ export class CoursesComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location
 
   ) {
     // In your component
@@ -42,13 +43,15 @@ export class CoursesComponent implements OnInit {
     );
   }
 
+
+  ngOnInit(): void {
+
+  }
+
   onError(errorMsg: string) {
     this.dialog.open(ErrorDialogComponent, {
       data: errorMsg
     });
-  }
-  ngOnInit(): void {
-
   }
 
   onAdd(){

@@ -1,6 +1,5 @@
-// src/app/courses/courses.module.ts
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 import { CoursesRoutingModule } from './courses-routing.module';
 import { CoursesComponent } from './courses/courses.component';
@@ -10,7 +9,7 @@ import { CourseFormComponent } from './course-form/course-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,10 @@ import {MatCardModule} from '@angular/material/card';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule
-
+  ],
+  providers: [
+    Location,
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
   ]
 })
 export class CoursesModule { }
