@@ -5,9 +5,10 @@
 
 
   <div class="column-flex">
-    <app-courses-list
+    <app-courses-list class="card-content"
     *ngIf="courses$ | async as courses; else loading"
-    [courses]="courses">
+    [courses]="courses"
+    (add) ="onAdd()">
     </app-courses-list>
 
     <ng-template #loading>
