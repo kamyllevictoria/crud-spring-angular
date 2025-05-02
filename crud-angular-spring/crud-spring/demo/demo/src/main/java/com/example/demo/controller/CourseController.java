@@ -23,7 +23,15 @@ public class CourseController {
         return courseRepository.findAll();
 
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Course> findById(@PathVariable Long id){
+        ResponseEntity<Object> ReponseEntity = null;
+        return courseRepository.findById(id)
+                .map(record -> ReponseEntity.ok().body(record)) //curso encontrado, que e nossa variavel record
+                .orElse(ResponseEntity.notFound().build()); //curso nao encontrado, erro 404
+    }
 
+    //criar um novo curso
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Course create(@RequestBody Course course){
