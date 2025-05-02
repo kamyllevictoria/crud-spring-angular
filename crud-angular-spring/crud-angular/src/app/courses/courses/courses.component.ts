@@ -21,8 +21,9 @@ import { Location } from '@angular/common';
 export class CoursesComponent implements OnInit {
 
   courses$: Observable<Course[]>;
+  //courses: Course[] = []
+  displayedColumns = ['name', 'category', 'actions'];
 
-  displayedColumns = ['_id', 'name', 'category', 'actions'];
   constructor(
     private coursesService: CoursesService,
     private dialog: MatDialog,
@@ -46,16 +47,6 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
 
-  }
-  getCategoryIcon(category: string): string {
-    if (category === "Frontend") {
-      return "code"
-    } else if (category === "Backend") {
-      return "computer"
-      return "data_usage"
-    } else {
-      return "school"
-    }
   }
 
   onError(errorMsg: string) {

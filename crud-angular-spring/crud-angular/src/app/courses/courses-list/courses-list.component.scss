@@ -1,0 +1,52 @@
+
+mat-table {
+  width: 100%;
+   overflow: auto;
+   max-height: 600px;
+ }
+
+ mat-card {
+  margin: 24px;
+  padding: 24px;
+}
+
+
+.vertical-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 8px 0;
+  justify-content: center;
+}
+
+.mat-column-actions {
+  width: 80px;
+  vertical-align: top;
+}
+
+
+th.mat-header-cell:last-of-type {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.full-width{
+  width: auto;
+}
+
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions-header {
+  text-align: center;
+}
+
+.action-column{
+  flex: 0 0 75px;
+}

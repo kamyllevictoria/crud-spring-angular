@@ -1,67 +1,21 @@
 <mat-card>
-  <mat-toolbar>
+  <mat-toolbar class="bg-pink-toolbar">
     <span>Cursos Disponiveis: </span>
   </mat-toolbar>
 
-  <div *ngIf="courses$ | async as courses; else loading">
-    <table mat-table [dataSource]="courses" class="mat-elevation-z8">
-      <ng-container matColumnDef="_id">
-        <th mat-header-cell *matHeaderCellDef>ID:</th>
-        <td mat-cell *matCellDef="let course">{{ course._id }}</td>
-      </ng-container>
 
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Nome do Curso:</th>
-        <td mat-cell *matCellDef="let course">{{ course.name }}</td>
-      </ng-container>
+  <div class="column-flex">
+    <app-courses-list
+    *ngIf="courses$ | async as courses; else loading"
+    [courses]="courses">
+    </app-courses-list>
 
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef>Categoria:</th>
-        <td mat-cell *matCellDef="let course">
-          {{ course.category }}
-
-          <mat-icon aria-hidden="false" aria-label="course category" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color">
-            {{getCategoryIcon(course.category)}}
-          </mat-icon>
-          
-        </td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="actions">
-
-        <th mat-header-cell *matHeaderCellDef class="full-width">
-          <div class="vertical-buttons">
-            <button mat-mini-fab color="primary" aria-label="Adicionar curso">
-              <mat-icon (click)="onAdd()" >add</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="accent" aria-label="Editar curso">
-              <mat-icon>edit</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="warn" aria-label="Excluir curso">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </th>
-        <td mat-cell *matCellDef="let course">
-
-        </td>
-      </ng-container>
-
-
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+    <ng-template #loading>
+      <div class="loading-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
   </div>
-
-  <ng-template #loading>
-    <div class="loading-spinner">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-template>
 </mat-card>
 
 
