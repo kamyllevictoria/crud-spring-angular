@@ -6,12 +6,14 @@
   margin-bottom: 10px;
 }
 
-.matCardMargin{
+mat-card-content{
   margin-top: 10px;
 }
 
-.matToolBar{
-  background-color: rgb(218, 167, 192) ;
+$primary-color: #880E4F;
+
+.bg-pink-toolbar{
+  background-color: $primary-color;
   color: white;
 }
 
@@ -29,7 +31,6 @@ mat-form-field.form-field-margin:first-of-type {
   margin-top: 24px;
 }
 
-
 mat-card {
   width: 80%;
   margin: 2rem auto;
@@ -39,14 +40,12 @@ mat-card {
   transform: translate(-50%, -50%);
 }
 
-
 mat-card-actions {
   display: flex;
   justify-content: center;
   margin-top: 20px;
   gap: 10px;
 }
-
 
 .save-button{
   background-color: #9bd8f0 !important;

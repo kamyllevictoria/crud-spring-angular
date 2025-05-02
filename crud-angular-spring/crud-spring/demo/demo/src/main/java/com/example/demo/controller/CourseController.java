@@ -25,9 +25,9 @@ public class CourseController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Course> findById(@PathVariable Long id){
-        ResponseEntity<Object> ReponseEntity = null;
+        ResponseEntity<Object> ResponseEntity = null;
         return courseRepository.findById(id)
-                .map(record -> ReponseEntity.ok().body(record)) //curso encontrado, que e nossa variavel record
+                .map(record -> ResponseEntity.ok().body(record)) //curso encontrado, que e nossa variavel record
                 .orElse(ResponseEntity.notFound().build()); //curso nao encontrado, erro 404
     }
 

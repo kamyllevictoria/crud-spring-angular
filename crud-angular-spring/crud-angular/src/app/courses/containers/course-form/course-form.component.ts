@@ -21,7 +21,6 @@ export class CourseFormComponent implements OnInit {
     private location: Location
   ) {
     this.form = this.formBuilder.group({
-      _id: [null],
       name: [null],
       category: [null],
     });

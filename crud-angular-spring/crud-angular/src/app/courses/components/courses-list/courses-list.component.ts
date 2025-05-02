@@ -13,8 +13,9 @@ export class CoursesListComponent implements OnInit{
 
   @Input()courses: Course[] = [];
   @Output() add = new EventEmitter<any>();
+  @Output() edit = new EventEmitter<any>();
 
-  readonly displayedColumns = ['_id', 'name', 'category', 'actions'];
+  readonly displayedColumns = ['name', 'category', 'actions'];
 
   constructor(
 
@@ -22,9 +23,8 @@ export class CoursesListComponent implements OnInit{
         private route: ActivatedRoute,
   ){}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-  }
   getCategoryIcon(category: string): string {
     if (category === "Frontend") {
       return "code"
@@ -35,7 +35,12 @@ export class CoursesListComponent implements OnInit{
       return "school"
     }
   }
+
   onAdd(){
     this.add.emit(true);
+  }
+
+  onEdit(course: Course){
+    this.edit.emit(course);
   }
 }
