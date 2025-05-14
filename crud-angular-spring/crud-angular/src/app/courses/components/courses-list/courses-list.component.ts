@@ -26,15 +26,18 @@ export class CoursesListComponent implements OnInit{
   ngOnInit(): void {}
 
   getCategoryIcon(category: string): string {
-    if (category === "Frontend") {
-      return "code"
-    } else if (category === "Backend") {
-      return "computer"
-      return "data_usage"
+    const normalizedCategory = category.trim().toLowerCase();
+
+    if (normalizedCategory === "frontend") {
+        return "code";
+    } else if (normalizedCategory === "backend") {
+        return "computer";
+    } else if (normalizedCategory === "data") {
+        return "school";
     } else {
-      return "school"
+        return "help"; // ícone padrão
     }
-  }
+}
 
   onAdd(){
     this.add.emit(true);
