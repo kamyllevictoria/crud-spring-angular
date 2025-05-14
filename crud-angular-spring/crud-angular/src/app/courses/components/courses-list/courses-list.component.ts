@@ -5,23 +5,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-courses-list',
   standalone: false,
-
   templateUrl: './courses-list.component.html',
-  styleUrl: './courses-list.component.scss'
+  styleUrl: './courses-list.component.scss',
 })
-export class CoursesListComponent implements OnInit{
-
-  @Input()courses: Course[] = [];
+export class CoursesListComponent implements OnInit {
+  @Input() courses: Course[] = [];
   @Output() add = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
 
-  readonly displayedColumns = ['name', 'category', 'actions'];
+  readonly displayedColumns: string[] = ['_id', 'name', 'category', 'actions'];
 
   constructor(
-
-        private router: Router,
-        private route: ActivatedRoute,
-  ){}
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -29,21 +26,21 @@ export class CoursesListComponent implements OnInit{
     const normalizedCategory = category.trim().toLowerCase();
 
     if (normalizedCategory === "frontend") {
-        return "code";
+      return "code";
     } else if (normalizedCategory === "backend") {
-        return "computer";
+      return "computer";
     } else if (normalizedCategory === "data") {
-        return "school";
+      return "school";
     } else {
-        return "help"; // ícone padrão
+      return "help"; // ícone padrão
     }
-}
+  }
 
-  onAdd(){
+  onAdd() {
     this.add.emit(true);
   }
 
-  onEdit(course: Course){
+  onEdit(course: Course) {
     this.edit.emit(course);
   }
 }
