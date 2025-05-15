@@ -27,7 +27,7 @@ public class CourseController {
     public ResponseEntity<Course> findById(@PathVariable Long id){
         ResponseEntity<Object> ResponseEntity = null;
         return courseRepository.findById(id)
-                .map(record -> ResponseEntity.ok().body(record)) //curso encontrado, que e nossa variavel record
+                .map(recordFound -> ResponseEntity.ok().body(recordFound)) //curso encontrado, que e nossa variavel record
                 .orElse(ResponseEntity.notFound().build()); //curso nao encontrado, erro 404
     }
 
@@ -37,6 +37,20 @@ public class CourseController {
     public Course create(@RequestBody Course course){
         return courseRepository.save(course);
         //return ResponseEntity.status(HttpStatus.CREATED).body(courseRepository.save(course));
+    }
+
+    //tratando o http put
+    @PutMapping("/{id}")
+    public Course update(@PathVariable Long id, @RequestBody Course course){
+        return courseRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(course.getName());
+                    recordFound.setCategory(course.getCategory());
+                    //atualizar no banco e dados
+                    Course updated = courseRepository.save(recordFound);
+                    return  ResponseEntity.ok().body(updated);
+                }) //curso encontrado, que e nossa variavel record
+                .orElse(ResponseEntity.notFound().build()).getBody(); //curso nao encontrado, erro 404
     }
 
 }
