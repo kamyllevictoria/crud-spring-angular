@@ -27,11 +27,11 @@ public class CourseController {
     public ResponseEntity<Course> findById(@PathVariable Long id){
         ResponseEntity<Object> ResponseEntity = null;
         return courseRepository.findById(id)
-                .map(recordFound -> ResponseEntity.ok().body(recordFound)) //curso encontrado, que e nossa variavel record
-                .orElse(ResponseEntity.notFound().build()); //curso nao encontrado, erro 404
+                .map(recordFound -> ResponseEntity.ok().body(recordFound))
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    //criar um novo curso
+
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Course create(@RequestBody Course course){
@@ -39,19 +39,31 @@ public class CourseController {
         //return ResponseEntity.status(HttpStatus.CREATED).body(courseRepository.save(course));
     }
 
-    //tratando o http put
     @PutMapping("/{id}")
     public Course update(@PathVariable Long id, @RequestBody Course course){
+        //verificar se o registro existe na base de dados
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(course.getName());
                     recordFound.setCategory(course.getCategory());
-                    //atualizar no banco e dados
+
                     Course updated = courseRepository.save(recordFound);
                     return  ResponseEntity.ok().body(updated);
-                }) //curso encontrado, que e nossa variavel record
-                .orElse(ResponseEntity.notFound().build()).getBody(); //curso nao encontrado, erro 404
+                })
+                .orElse(ResponseEntity.notFound().build()).getBody();
     }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id){
+        return courseRepository.findById(id)
+                .map(recordFound -> {
+                    courseRepository.delete(recordFound);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
 }
 
