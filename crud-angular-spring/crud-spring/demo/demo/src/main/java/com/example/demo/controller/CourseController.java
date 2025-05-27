@@ -31,7 +31,6 @@ public class CourseController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Course create(@RequestBody Course course){
@@ -52,10 +51,8 @@ public class CourseController {
                 })
                 .orElse(ResponseEntity.notFound().build()).getBody();
     }
-
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id){
+    public ResponseEntity<Object> delete (@PathVariable Long id){
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     courseRepository.delete(recordFound);

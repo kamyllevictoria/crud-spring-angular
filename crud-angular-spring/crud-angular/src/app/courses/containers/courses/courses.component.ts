@@ -1,3 +1,4 @@
+import { ConfirmationDialogComponent } from './../../components/courses-list/confirmation-dialog/confirmation-dialog.component';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Course } from '../../model/course';
@@ -11,7 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
 @Component({
   selector: 'app-courses',
   standalone: false,
@@ -21,7 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CoursesComponent implements OnInit {
 
-  courses$: Observable<Course[]> ;
+  courses$: Observable<Course[]> | null = null;
   //courses: Course[] = []
   displayedColumns = ['name', 'category', 'actions'];
 
@@ -34,15 +34,7 @@ export class CoursesComponent implements OnInit {
     private snackBar: MatSnackBar,
 
   ) {
-    this.courses$ = this.coursesService.list()
-    .pipe(
-      tap(courses => console.log('Courses received:', courses)),
-      catchError(error => {
-        console.error('Error fetching courses:', error);
-        this.onError('Error loading courses');
-        return of([]);
-      })
-    );
+    this.refresh();
   }
 
 
@@ -51,7 +43,7 @@ export class CoursesComponent implements OnInit {
   }
 
   refresh(){
-      this.courses$ = this.coursesService.list()
+    this.courses$ = this.coursesService.list()
           .pipe(
             tap(courses => console.log('Courses received:', courses)),
             catchError(error => {
@@ -59,7 +51,7 @@ export class CoursesComponent implements OnInit {
               this.onError('Error loading courses');
               return of([]);
             })
-          );
+    );
   }
 
   onError(errorMsg: string) {
@@ -77,29 +69,30 @@ export class CoursesComponent implements OnInit {
   }
 
   onRemove(course: Course) {
-  this.coursesService.remove(course._id).subscribe(
-    () => {
-      this.refresh();
-      this.snackBar.open('Curso removido com sucesso!', 'X', {
-        duration: 4000,
-        verticalPosition: 'top',
-        horizontalPosition: 'center'
-      });
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    data: 'Are you sure to delete this course?',
+  });
 
-      this.courses$ = this.coursesService.list().pipe(
-        tap(courses => console.log('Courses updated:', courses)),
-        catchError(error => {
-          this.onError('Erro ao atualizar cursos após remoção.');
-          return of([]);
-        })
+  dialogRef.afterClosed().subscribe((result: boolean) => {
+    if (result) {
+      this.coursesService.remove(course._id).subscribe(
+        () => {
+          this.refresh();
+          this.snackBar.open('Course removed successfully!', 'X', {
+            duration: 4000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+        },
+        (error) => {
+          console.error('Error removing course:', error);
+          this.onError('Error removing course.');
+        }
       );
-    },
-    (error) => {
-      console.error('Erro ao remover curso:', error);
-      this.onError('Erro ao remover o curso.');
     }
-  );
-  }
+  });
+}
+
 
 
 
