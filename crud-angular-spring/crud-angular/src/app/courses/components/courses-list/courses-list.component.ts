@@ -12,6 +12,7 @@ export class CoursesListComponent implements OnInit {
   @Input() courses: Course[] = [];
   @Output() add = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
+  @Output() remove = new EventEmitter<any>();
 
   readonly displayedColumns: string[] = ['_id', 'name', 'category', 'actions'];
 
@@ -32,7 +33,7 @@ export class CoursesListComponent implements OnInit {
     } else if (normalizedCategory === "data") {
       return "school";
     } else {
-      return "help"; // ícone padrão
+      return "help";
     }
   }
 
@@ -42,5 +43,9 @@ export class CoursesListComponent implements OnInit {
 
   onEdit(course: Course) {
     this.edit.emit(course);
+  }
+
+  onRemove(course: Course){
+    this.remove.emit(course);
   }
 }

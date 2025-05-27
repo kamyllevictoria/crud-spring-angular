@@ -9,6 +9,7 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { Location } from '@angular/common';
 
 export class CoursesComponent implements OnInit {
 
-  courses$: Observable<Course[]>;
+  courses$: Observable<Course[]> ;
   //courses: Course[] = []
   displayedColumns = ['name', 'category', 'actions'];
 
@@ -29,10 +30,10 @@ export class CoursesComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private snackBar: MatSnackBar,
 
   ) {
-    // In your component
     this.courses$ = this.coursesService.list()
     .pipe(
       tap(courses => console.log('Courses received:', courses)),
@@ -49,6 +50,18 @@ export class CoursesComponent implements OnInit {
 
   }
 
+  refresh(){
+      this.courses$ = this.coursesService.list()
+          .pipe(
+            tap(courses => console.log('Courses received:', courses)),
+            catchError(error => {
+              console.error('Error fetching courses:', error);
+              this.onError('Error loading courses');
+              return of([]);
+            })
+          );
+  }
+
   onError(errorMsg: string) {
     this.dialog.open(ErrorDialogComponent, {
       data: errorMsg
@@ -60,9 +73,35 @@ export class CoursesComponent implements OnInit {
   }
 
   onEdit(course: Course){
-    console.log("botao de editar clicado", course);
     this.router.navigate(['edit', course._id], {relativeTo: this.route});
   }
+
+  onRemove(course: Course) {
+  this.coursesService.remove(course._id).subscribe(
+    () => {
+      this.refresh();
+      this.snackBar.open('Curso removido com sucesso!', 'X', {
+        duration: 4000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+
+      this.courses$ = this.coursesService.list().pipe(
+        tap(courses => console.log('Courses updated:', courses)),
+        catchError(error => {
+          this.onError('Erro ao atualizar cursos após remoção.');
+          return of([]);
+        })
+      );
+    },
+    (error) => {
+      console.error('Erro ao remover curso:', error);
+      this.onError('Erro ao remover o curso.');
+    }
+  );
+  }
+
+
 
 
 

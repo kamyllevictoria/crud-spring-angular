@@ -21,8 +21,8 @@ public class CourseController {
     @GetMapping
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
-
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Course> findById(@PathVariable Long id){
         ResponseEntity<Object> ResponseEntity = null;
