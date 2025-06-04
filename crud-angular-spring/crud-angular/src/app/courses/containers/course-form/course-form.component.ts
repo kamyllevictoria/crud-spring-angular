@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
@@ -25,9 +25,10 @@ export class CourseFormComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       _id: [''],
-      name: [null],
-      category: [null],
+      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      category: ['', [Validators.required]],
     });
+
   }
 
   ngOnInit(): void {
@@ -58,5 +59,24 @@ export class CourseFormComponent implements OnInit {
 
   private onError() {
     this.snackBar.open('Error saving course.', '', { duration: 4000 });
+  }
+
+  getErrorMessage(fieldName: string){
+    const field = this.form.get(fieldName);
+    if(field?.hasError('required')){
+      return 'Required Field'
+    }
+
+    if(field?.hasError('minlength')){
+      const requiredLength = field.errors?field.errors['minlength']['requiredLength'] : 5;
+      return `The minimum size must be ${requiredLength} characters.`
+    }
+
+    if(field?.hasError('maxlength')){
+      const requiredLength = field.errors?field.errors['maxlength']['requiredLength'] : 200;
+      return `The maximum size must be ${requiredLength} characters.`
+    }
+
+    return 'Invalid fields.'
   }
 }
