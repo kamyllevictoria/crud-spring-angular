@@ -2,14 +2,20 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.Course;
 import com.example.demo.repository.CourseRepository;
 
+@Validated
 @RestController
 @RequestMapping("/api/courses")
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
@@ -24,22 +30,22 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> findById(@PathVariable Long id){
+    public ResponseEntity<Course> findById (@PathVariable @NotNull @Positive  Long id){
         ResponseEntity<Object> ResponseEntity = null;
         return courseRepository.findById(id)
-                .map(recordFound -> ResponseEntity.ok().body(recordFound))
+                .map(recordFound -> org.springframework.http.ResponseEntity.ok().body(recordFound))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Course create(@RequestBody Course course){
+    public Course create(@RequestBody @Valid Course course){
         return courseRepository.save(course);
         //return ResponseEntity.status(HttpStatus.CREATED).body(courseRepository.save(course));
     }
 
     @PutMapping("/{id}")
-    public Course update(@PathVariable Long id, @RequestBody Course course){
+    public Course update(@PathVariable Long id, @RequestBody @Valid Course course){
         //verificar se o registro existe na base de dados
         return courseRepository.findById(id)
                 .map(recordFound -> {
@@ -52,7 +58,7 @@ public class CourseController {
                 .orElse(ResponseEntity.notFound().build()).getBody();
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete (@PathVariable Long id){
+    public ResponseEntity<Object> delete (@PathVariable @NotNull @Positive Long id){
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     courseRepository.delete(recordFound);

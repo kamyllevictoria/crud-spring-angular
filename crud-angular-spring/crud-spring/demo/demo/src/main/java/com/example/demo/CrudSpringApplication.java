@@ -23,11 +23,9 @@ public class CrudSpringApplication {
 
 			Course c = new Course();
 			c.setName("Angular with Spring");
-			c.setCategory("Frontend");
+			c.setCategory("Front-end");
 			courseRepository.save(c); //registro no banco de dados parte 1
-
-
-			System.out.println("Database initialized with sample courses");
+  			System.out.println("Database initialized with sample courses");
 		};
 	}
 
