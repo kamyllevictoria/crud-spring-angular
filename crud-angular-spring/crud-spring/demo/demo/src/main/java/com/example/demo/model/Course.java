@@ -7,13 +7,16 @@ import jakarta.validation.constraints.NotBlank;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.hibernate.Length;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Data
 @Entity
+@SQLDelete(sql = "UPDATE course SET status = 'Inactive' WHERE id = ?" ) //sql que desejamos que o hibernate execute toda vez que o metodo delete for chamado
 public class Course {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -31,11 +34,26 @@ public class Course {
     @Column(length = 10, nullable = false)
     private String category;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @NotNull
+    @Size(max = 10)
+    @Pattern(regexp = "Inactive|Active")
+    @Column(length = 10, nullable = false)
+    private String status = "Active";
+
     // Getter personalizado para exibir como "_id"
     @JsonProperty("_id")
     public Long getId() {
         return id;
     }
+
 
     public void setId(Long id) {
         this.id = id;

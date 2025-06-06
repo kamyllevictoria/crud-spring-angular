@@ -17,7 +17,7 @@ public class CrudSpringApplication {
 	}
 
 	@Bean
-	CommandLineRunner initDatabase(CourseRepository courseRepository) {
+	CommandLineRunner initDatabase (CourseRepository courseRepository) {
 		return args -> {
 			courseRepository.deleteAll();
 

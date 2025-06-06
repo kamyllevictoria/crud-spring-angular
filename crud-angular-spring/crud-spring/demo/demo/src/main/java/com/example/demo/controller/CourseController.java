@@ -57,6 +57,7 @@ public class CourseController {
                 })
                 .orElse(ResponseEntity.notFound().build()).getBody();
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete (@PathVariable @NotNull @Positive Long id){
         return courseRepository.findById(id)
