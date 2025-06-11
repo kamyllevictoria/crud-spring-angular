@@ -19,6 +19,7 @@ import org.springframework.validation.Validator;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("_id")
     private Long id;
 
     @NotBlank
@@ -34,6 +35,12 @@ public class Course {
     @Column(length = 10, nullable = false)
     private String category;
 
+    @NotNull
+    @Size(max = 10)
+    @Pattern(regexp = "Inactive|Active")
+    @Column(length = 10, nullable = false)
+    private String status = "Active";
+
     public String getStatus() {
         return status;
     }
@@ -42,11 +49,7 @@ public class Course {
         this.status = status;
     }
 
-    @NotNull
-    @Size(max = 10)
-    @Pattern(regexp = "Inactive|Active")
-    @Column(length = 10, nullable = false)
-    private String status = "Active";
+
 
     // Getter personalizado para exibir como "_id"
     @JsonProperty("_id")
