@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.CourseDTO;
 import com.example.demo.dto.mapper.CourseMapper;
+import com.example.demo.enums.Category;
 import com.example.demo.exception.RecordNotFoundException;
 import com.example.demo.model.Course;
 import com.example.demo.repository.CourseRepository;
@@ -50,7 +51,7 @@ public class CourseService {
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(course.name());
-                    recordFound.setCategory(course.category());
+                    recordFound.setCategory(Category.FRONTEND);
                     return courseRepository.save(recordFound);
                 }).map(courseMapper::toDTO).orElseThrow(() -> new RecordNotFoundException(id));
 

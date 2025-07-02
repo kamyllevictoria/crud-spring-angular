@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.enums.Category;
+import com.example.demo.enums.converters.CategoryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -8,10 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.Length;
 import org.hibernate.annotations.SQLDelete;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 @Data
 @Entity
@@ -30,10 +29,10 @@ public class Course {
 
 
     @NotNull
-    @Size(max = 10)
-    @Pattern(regexp = "Back-end|Front-end|Data")
+    @Size(min = 5, max = 10)
     @Column(length = 10, nullable = false)
-    private String category;
+    @Convert(converter = CategoryConverter.class)
+    private Category category;
 
     @NotNull
     @Size(max = 10)
@@ -70,11 +69,10 @@ public class Course {
         this.name = name;
     }
 
-    public String getCategory() {
+    public @NotNull @Size(max = 10) @Pattern(regexp = "Back-end|Front-end|Data") Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
-    }
-}
+    }}

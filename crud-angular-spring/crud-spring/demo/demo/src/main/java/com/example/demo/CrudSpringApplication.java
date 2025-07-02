@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.enums.Category;
 import com.example.demo.model.Course;
 import com.example.demo.repository.CourseRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -23,7 +24,7 @@ public class CrudSpringApplication {
 
 			Course c = new Course();
 			c.setName("Angular with Spring");
-			c.setCategory("Front-end");
+			c.setCategory((Category.FRONTEND));
 			courseRepository.save(c); //registro no banco de dados parte 1
   			System.out.println("Database initialized with sample courses");
 		};
