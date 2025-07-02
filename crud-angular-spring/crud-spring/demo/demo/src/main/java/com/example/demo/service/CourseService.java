@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.CourseDTO;
+import com.example.demo.dto.mapper.CourseMapper;
 import com.example.demo.exception.RecordNotFoundException;
 import com.example.demo.model.Course;
 import com.example.demo.repository.CourseRepository;
@@ -8,38 +10,49 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Validated
 @Service
 public class CourseService {
+
     private CourseRepository courseRepository;
+    private final CourseMapper courseMapper;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper) {
         this.courseRepository = courseRepository;
+        this.courseMapper = courseMapper;
     }
 
-    public List<Course> list() {
-        return courseRepository.findAll();
+    public List<CourseDTO> list() {
+        return courseRepository.findAll().stream()
+                .map(courseMapper::toDTO)
+                .collect(Collectors.toList());
+
     }
 
-    public Course findById(@PathVariable @NotNull @Positive Long id){
-        return courseRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+    public CourseDTO findById(@PathVariable @NotNull @Positive Long id){
+        return courseRepository.findById(id)
+                .map(courseMapper::toDTO)
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public Course create(@Valid Course course){
-        return courseRepository.save(course);
+    public CourseDTO create(@Valid @NotNull CourseDTO course){
+        return courseMapper.toDTO(courseRepository.save(courseMapper.toEntity(course)));
     }
 
-    public Course update(@NotNull @Positive Long id, @Valid Course course){
+    public CourseDTO update(@NotNull @Positive Long id, @Valid CourseDTO course){
         return courseRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setName(course.getName());
-                    recordFound.setCategory(course.getCategory());
+                    recordFound.setName(course.name());
+                    recordFound.setCategory(course.category());
                     return courseRepository.save(recordFound);
-                }).orElseThrow(() -> new RecordNotFoundException(id));
+                }).map(courseMapper::toDTO).orElseThrow(() -> new RecordNotFoundException(id));
 
     }
 
