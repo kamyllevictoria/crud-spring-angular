@@ -1,12 +1,13 @@
 package com.example.demo.model;
 
 import com.example.demo.enums.Category;
+import com.example.demo.enums.Status;
 import com.example.demo.enums.converters.CategoryConverter;
+import com.example.demo.enums.converters.StatusConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
-
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.SQLDelete;
 
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE course SET status = 'Inactive' WHERE id = ?" ) //sql que desejamos que o hibernate execute toda vez que o metodo delete for chamado
+@SQLDelete(sql = "UPDATE course SET status = 1 WHERE id = ?" ) //sql que desejamos que o hibernate execute toda vez que o metodo delete for chamado
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +28,6 @@ public class Course {
     @Column(length = 100, nullable = false)
     private String name;
 
-
     @NotNull
     @Size(min = 5, max = 10)
     @Column(length = 10, nullable = false)
@@ -35,16 +35,17 @@ public class Course {
     private Category category;
 
     @NotNull
-    @Size(max = 10)
-    @Pattern(regexp = "Inactive|Active")
     @Column(length = 10, nullable = false)
-    private String status = "Active";
+    @Convert(converter = StatusConverter.class)
+    private Status status = Status.ACTIVE;
 
-    public String getStatus() {
+
+
+    public @NotNull @Size(max = 10) @Pattern(regexp = "Inactive|Active") Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
