@@ -1,29 +1,35 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
+@Data
 @Entity
 public class Lesson {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "lesson_id")
+    @JsonProperty("_id")
     private Long id;
 
+    @NotBlank
+    @NotNull
+    @Size(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(length = 100, nullable = false)
+    @NotBlank
+    @NotNull
+    @Size(min = 10, max = 11)
+    @Column(length = 11, nullable = false)
     private String youtubeUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
 
+    @JsonProperty("_id")
     public Long getId() {
         return id;
     }
@@ -47,12 +53,5 @@ public class Lesson {
     public void setYoutubeUrl(String youtubeUrl) {
         this.youtubeUrl = youtubeUrl;
     }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
 }
+
