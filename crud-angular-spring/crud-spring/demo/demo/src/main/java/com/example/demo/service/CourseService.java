@@ -43,14 +43,19 @@ public class CourseService {
         return courseMapper.toDTO(courseRepository.save(courseMapper.toEntity(course)));
     }
 
-    public CourseDTO update(@NotNull @Positive Long id, @Valid CourseDTO course){ // <<< AQUI: Parâmetro 'course'
+    public CourseDTO update(@NotNull @Positive Long id, @Valid CourseDTO course){
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(course.name());
                     recordFound.setCategory(courseMapper.convertCategoryValue(course.category()));
-                    recordFound.setStatus(Status.fromString(course.status()));
+
+                    if (course.status() != null && !course.status().trim().isEmpty()) {
+                        recordFound.setStatus(Status.fromString(course.status()));
+                    }
                     return courseRepository.save(recordFound);
-                }).map(courseMapper::toDTO).orElseThrow(() -> new RecordNotFoundException(id));
+
+                })
+                .map(courseMapper::toDTO).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public void delete (@PathVariable @NotNull @Positive Long id){

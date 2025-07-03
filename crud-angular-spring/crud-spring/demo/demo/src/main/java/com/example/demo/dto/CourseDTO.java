@@ -9,6 +9,6 @@ import jakarta.validation.constraints.Size;
 public record CourseDTO(
         @JsonProperty("_id")Long id,
         @NotBlank @NotNull @Size(min = 5, max = 100)String name,
-        @NotNull @Size(max = 10) @Pattern(regexp = "Back-end|Front-end") String category, String status){
+        @NotNull @Size(max = 10) @Pattern(regexp = "Back-end|Front-end|Data") String category, @Pattern(regexp = "Active|Inactive") String status){
 
 }

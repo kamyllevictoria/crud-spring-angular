@@ -2,23 +2,24 @@ package com.example.demo.enums.converters;
 
 import com.example.demo.enums.Status;
 import jakarta.persistence.AttributeConverter;
-import java.util.stream.Stream;
+import jakarta.persistence.Converter;
 
-public class StatusConverter implements AttributeConverter<Status, Integer>{
+@Converter(autoApply = true)
+public class StatusConverter implements AttributeConverter<Status, String> {
 
     @Override
-    public Integer convertToDatabaseColumn(Status status) {
+    public String convertToDatabaseColumn(Status status) {
         if(status == null){
             return null;
         }
-        return status.getValueStatus();
+        return status.getStatus();
     }
 
     @Override
-    public Status convertToEntityAttribute(Integer dbData) {
+    public Status convertToEntityAttribute(String dbData) {
         if(dbData == null){
             return null;
         }
-        return Status.fromValue(dbData);
+        return Status.fromString(dbData);
     }
 }

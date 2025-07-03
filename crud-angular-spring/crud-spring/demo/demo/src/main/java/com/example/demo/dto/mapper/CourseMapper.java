@@ -2,7 +2,7 @@ package com.example.demo.dto.mapper;
 
 import com.example.demo.dto.CourseDTO;
 import com.example.demo.enums.Category;
-import com.example.demo.enums.Status; // Importe seu enum Status
+import com.example.demo.enums.Status;
 import com.example.demo.model.Course;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,12 @@ public class CourseMapper {
         course.setName(courseDTO.name());
         course.setCategory(convertCategoryValue(courseDTO.category()));
 
-        course.setStatus(Status.fromString(String.valueOf(courseDTO.status())));
+        if (courseDTO.status() != null && !courseDTO.status().trim().isEmpty()) {
+            course.setStatus(Status.fromString(courseDTO.status()));
+        } else {
+            course.setStatus(Status.ACTIVE);
+        }
+
         return course;
     }
 

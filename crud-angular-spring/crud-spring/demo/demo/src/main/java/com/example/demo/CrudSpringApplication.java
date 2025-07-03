@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.enums.Category;
 import com.example.demo.enums.Status;
 import com.example.demo.model.Course;
+import com.example.demo.model.Lesson;
 import com.example.demo.repository.CourseRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,8 +28,17 @@ public class CrudSpringApplication {
 			c.setName("Angular with Spring");
 			c.setCategory((Category.FRONTEND));
 			c.setStatus(Status.ACTIVE);
-			courseRepository.save(c); //registro no banco de dados parte 1
-  			System.out.println("Database initialized with sample courses");
+
+			Lesson l = new Lesson();
+			l.setName("Introdução");
+			l.setYoutubeUrl("watch?v=1");
+
+
+			c.addLesson(l);
+
+			courseRepository.save(c);
+
+
 		};
 	}
 
