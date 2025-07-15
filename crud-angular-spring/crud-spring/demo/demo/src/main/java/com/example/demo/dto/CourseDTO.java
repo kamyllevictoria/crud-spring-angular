@@ -13,6 +13,6 @@ import java.util.List;
 public record CourseDTO(
         @JsonProperty("_id")Long id,
         @NotBlank @NotNull @Size(min = 5, max = 100)String name,
-        @NotNull @Size(max = 10) @Pattern(regexp = "Back-end|Front-end|Data") String category, @Pattern(regexp = "Active|Inactive") String status, List<Lesson> lessons){
+        @NotNull @Size(max = 10) @Pattern(regexp = "Back-end|Front-end|Data") String category, @Pattern(regexp = "Active|Inactive") String status, List<LessonDTO> lessons){
 
 }
