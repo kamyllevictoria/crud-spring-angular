@@ -24,7 +24,7 @@ export class CoursesListComponent implements OnInit {
   ngOnInit(): void {}
 
   getCategoryIcon(category: string): string {
-    const normalizedCategory = category.trim().toLowerCase();
+    const normalizedCategory = category.trim().toLowerCase().replace('-', '');
 
     if (normalizedCategory === "frontend") {
       return "code";
