@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,7 +35,8 @@ public class Lesson {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
-
+    @JsonBackReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //apenas faz o set como deserializacao, nao usamos essa propriedade como get
     private Course course;
 
 

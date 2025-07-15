@@ -17,7 +17,8 @@ public class CourseMapper {
                 course.getId(),
                 course.getName(),
                 course.getCategory().getValue(),
-                course.getStatus().getStatus()
+                course.getStatus().getStatus(),
+                course.getLessons()
         );
     }
 

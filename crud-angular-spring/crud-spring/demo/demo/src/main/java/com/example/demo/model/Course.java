@@ -4,6 +4,7 @@ import com.example.demo.enums.Category;
 import com.example.demo.enums.Status;
 import com.example.demo.enums.converters.CategoryConverter;
 import com.example.demo.enums.converters.StatusConverter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -48,13 +49,8 @@ public class Course {
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
 
-    // Relacionamento unidirecional usando tabela intermediária
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "course_lessons",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "lesson_id")
-    )
+    @JsonManagedReference
     private List<Lesson> lessons = new ArrayList<>();
 
     @JsonProperty("_id")
@@ -100,9 +96,11 @@ public class Course {
 
     public void addLesson(Lesson lesson) {
         this.lessons.add(lesson);
+        lesson.setCourse(this);
     }
 
     public void removeLesson(Lesson lesson) {
         this.lessons.remove(lesson);
+        lesson.setCourse(null);
     }
 }
