@@ -1,23 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-
-import { CoursesRoutingModule } from './courses-routing.module';
-import { CoursesComponent } from './containers/courses/courses.component';
-import { AppMaterialModule } from '../shared/app-material/app-material.module';
-import { SharedModule } from '../shared/shared.module';
-import { CourseFormComponent } from './containers/course-form/course-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { CoursesListComponent } from './components/courses-list/courses-list.component';
+import { NgModule } from "@angular/core"
+import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common"
+import { CoursesRoutingModule } from "./courses-routing.module"
+import { CoursesComponent } from "./containers/courses/courses.component"
+import { AppMaterialModule } from "../shared/app-material/app-material.module"
+import { SharedModule } from "../shared/shared.module"
+import { CourseFormComponent } from "./containers/course-form/course-form.component"
+import { ReactiveFormsModule } from "@angular/forms"
+import { MatFormFieldModule } from "@angular/material/form-field"
+import { MatInputModule } from "@angular/material/input"
+import { MatCardModule } from "@angular/material/card"
+import { CoursesListComponent } from "./components/courses-list/courses-list.component"
+import { RouterModule } from "@angular/router"
 
 @NgModule({
-  declarations: [
-    CoursesComponent,
-    CourseFormComponent,
-    CoursesListComponent,
-  ],
+  declarations: [CoursesComponent, CourseFormComponent, CoursesListComponent],
   imports: [
     CommonModule,
     CoursesRoutingModule,
@@ -26,11 +22,9 @@ import { CoursesListComponent } from './components/courses-list/courses-list.com
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    RouterModule,
   ],
-  providers: [
-    Location,
-    { provide: LocationStrategy, useClass: PathLocationStrategy }
-  ]
+  providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
 })
-export class CoursesModule { }
+export class CoursesModule {}

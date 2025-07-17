@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, UntypedFormArray, Validators } from '@angular/forms';
 import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
@@ -11,7 +11,7 @@ import { Lesson } from '../../model/lesson';
   selector: 'app-course-form',
   standalone: false,
   templateUrl: './course-form.component.html',
-  styleUrl: './course-form.component.scss'
+  styleUrls: ['./course-form.component.scss']
 })
 export class CourseFormComponent implements OnInit {
 
@@ -37,15 +37,14 @@ export class CourseFormComponent implements OnInit {
     });
     console.log(this.form);
     console.log(this.form.value)
-
   }
 
   private retrieveLessons(course: Course){
     const lessons = [];
-    if(course?.lessons){
+    if(course?.lessons && course.lessons.length > 0){ 
       course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)))
-    } else{
-      lessons.push(this.createLesson);
+    } else {
+      lessons.push(this.createLesson());
     }
     return lessons;
   }
@@ -58,6 +57,9 @@ export class CourseFormComponent implements OnInit {
     });
   }
 
+  getLessonsFormArray(){
+    return (<UntypedFormArray>this.form.get('lessons')).controls
+  }
 
   onSubmit() {
     this.service.save(this.form.value)
