@@ -18,3 +18,4 @@ export class CourseResolver implements Resolve<Course> {
     return of({_id: '', name: '', category: '', lessons: []});
   }
 }
+ 
