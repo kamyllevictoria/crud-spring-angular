@@ -66,7 +66,9 @@ mat-card-actions {
   background-color: #e72c2c !important;
   color: white !important;
 }
-.add-btn{
+
+
+.add-btn, .remove-btn{
   background-color: rgb(222, 212, 213);
   margin: 5px;
   color: black;
@@ -76,14 +78,8 @@ mat-card-actions {
   background-color: #880E4F;
   color: white;
 }
-
-.add-btn{
-  background-color: rgb(222, 212, 213);
-  margin: 5px;
-  color: black;
-}
-
-.add-btn:hover{
-  background-color: #880E4F;
+.remove-btn:hover{
+  background-color: rgb(145, 6, 6);
   color: white;
 }
+
