@@ -34,12 +34,10 @@ public class CourseController {
         return courseService.list();
     }
 
-
     @GetMapping("/{id}")
     public CourseDTO findById(@PathVariable @NotNull @Positive  Long id){
         return courseService.findById(id);
     }
-
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)

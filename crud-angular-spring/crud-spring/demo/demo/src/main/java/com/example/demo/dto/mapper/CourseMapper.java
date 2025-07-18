@@ -5,6 +5,7 @@ import com.example.demo.dto.LessonDTO;
 import com.example.demo.enums.Category;
 import com.example.demo.enums.Status;
 import com.example.demo.model.Course;
+import com.example.demo.model.Lesson;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,7 +23,6 @@ public class CourseMapper {
                 .stream()
                 .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
                 .collect(Collectors.toList());
-
 
         return new CourseDTO(
                 course.getId(),
@@ -44,11 +44,24 @@ public class CourseMapper {
         course.setName(courseDTO.name());
         course.setCategory(convertCategoryValue(courseDTO.category()));
 
+        List <Lesson> lessons =  courseDTO.lessons().stream().map(lessonDTO ->{
+            var lesson = new Lesson();
+            lesson.setId(lessonDTO.id());
+            lesson.setName(lessonDTO.name());
+            lesson.setYoutubeUrl(lessonDTO.youtubeUrl());
+            lesson.setCourse(course);
+            return lesson;
+
+        }).toList();
+        course.setLessons(lessons);
+
+
         if (courseDTO.status() != null && !courseDTO.status().trim().isEmpty()) {
             course.setStatus(Status.fromString(courseDTO.status()));
         } else {
             course.setStatus(Status.ACTIVE);
         }
+        //criamos cursos com aulas e tambem cosneguimos fazer o update
 
         return course;
     }
