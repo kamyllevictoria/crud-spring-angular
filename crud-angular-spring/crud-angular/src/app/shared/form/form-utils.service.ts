@@ -22,8 +22,6 @@ export class FormUtilsService {
 
   }
 
-
-
   getErrorMessage(FormGroup: UntypedFormGroup, fieldName: string){
     const field = FormGroup.get(fieldName) as UntypedFormControl;
 
@@ -56,8 +54,11 @@ export class FormUtilsService {
     return this.getErrorMessageFromField(field);
   }
 
+
   isFormArrayRequired(formGroup: UntypedFormGroup, formArrayName: string){
     const formArray = formGroup.get(formArrayName) as UntypedFormArray;
     return !formArray.valid && formArray.hasError('required') && formArray.touched;
   }
+
+
 }

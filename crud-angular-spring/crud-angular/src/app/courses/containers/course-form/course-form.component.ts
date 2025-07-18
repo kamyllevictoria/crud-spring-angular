@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../model/course';
 import { Lesson } from '../../model/lesson';
+import { FormUtilsService } from '../../../shared/form/form-utils.service';
 
 @Component({
   selector: 'app-course-form',
@@ -22,7 +23,8 @@ export class CourseFormComponent implements OnInit {
     private service: CoursesService,
     private snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public formUtils: FormUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -35,22 +37,19 @@ export class CourseFormComponent implements OnInit {
       category: [course.category, [Validators.required]],
       lessons: this.formBuilder.array(this.retrieveLessons(course), Validators.required)
     });
-    console.log(this.form);
-    console.log(this.form.value)
 
   }
 
 
-private retrieveLessons(course: Course){
-  const lessons = [];
-  if(course?.lessons){
-    course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)))
-  } else{
-    lessons.push(this.createLesson());
+  private retrieveLessons(course: Course){
+    const lessons = [];
+    if(course?.lessons){
+      course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)))
+    } else{
+      lessons.push(this.createLesson());
+    }
+    return lessons;
   }
-  return lessons;
-}
-
 
   private createLesson(lesson: Lesson = {id: '', name: '', youtubeUrl: ''}){
     return this.formBuilder.group({
@@ -84,12 +83,10 @@ private retrieveLessons(course: Course){
         error => this.onError()
       );
     } else{
-        alert("Invalid Form");
+        this.formUtils.validadeAllFormFields(this.form);
     }
 
   }
-
-
 
   onCancel() {
     this.location.back();
@@ -104,30 +101,4 @@ private retrieveLessons(course: Course){
     this.snackBar.open('Error saving course.', '', { duration: 4000 });
   }
 
-  getErrorMessage(fieldName: string){
-    const field = this.form.get(fieldName);
-
-    if(field?.hasError('required')){
-      return 'Required Field'
-    }
-
-    if(field?.hasError('minlength')){
-      const requiredLength = field.errors?field.errors['minlength']['requiredLength'] : 5;
-      return `The minimum size must be ${requiredLength} characters.`
-    }
-
-    if(field?.hasError('maxlength')){
-      const requiredLength = field.errors?field.errors['maxlength']['requiredLength'] : 200;
-      return `The maximum size must be ${requiredLength} characters.`
-    }
-
-    return 'Invalid fields.'
-  }
-
-  isFormArrayRequired(){
-    const lessons = this.form.get('lessons') as UntypedFormArray;
-    return !lessons.valid && lessons.hasError('required') && lessons.touched;
-  }
-
-  
 }
