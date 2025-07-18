@@ -28,6 +28,38 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-toolbar>
+        <span>Lessons: </span>
+        <button mat-icon-button class="add-btn">
+          <mat-icon aria-label="Adding new lesson" class="add-btn-icon">add</mat-icon>
+        </button>
+      </mat-toolbar>
+
+
+      <table style="width: 100%"
+        formArrayName="lessons"
+        *ngFor="let lesson of getLessonsFormArray(); let i = index">
+        <th></th>
+
+        <tr [formGroupName]="i">
+          <td style="width: 65%">
+            <mat-form-field class="full-width">
+              <mat-label>Lesson's name: </mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+
+          </td>
+          <td style="width: 30%">
+            <mat-form-field class="full-width">
+              <mat-label>URL: </mat-label>
+
+              <input matInput formControlName="youtubeUrl">
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+
+
     </form>
   </mat-card-content>
   <mat-card-actions>
