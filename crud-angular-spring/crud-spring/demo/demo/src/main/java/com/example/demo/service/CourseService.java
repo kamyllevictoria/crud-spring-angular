@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Sort;
 @Validated
 @Service
 public class CourseService {
 
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
 
     public CourseService(CourseRepository courseRepository, CourseMapper courseMapper) {
@@ -32,10 +32,11 @@ public class CourseService {
         this.courseMapper = courseMapper;
     }
 
-    public CoursePageDTO list(int pageNumber,  @Positive @Max(100) int pageSize) {
-        Page<Course> page = courseRepository.findAll(PageRequest.of(pageNumber, pageSize));
-        List<CourseDTO> courses = page.get().map(courseMapper:: toDTO).collect(Collectors.toList());
-        return new CoursePageDTO(courses, page.getTotalElements(), page.getTotalPages()); //retornamos um objeto que e uma pagina de curso
+    public CoursePageDTO list(int page,  @Positive @Max(100) int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<Course> pageResult = courseRepository.findAll(PageRequest.of(page, size));
+        List<CourseDTO> courses = pageResult.get().map(courseMapper:: toDTO).collect(Collectors.toList());
+        return new CoursePageDTO(courses, pageResult.getTotalElements(), pageResult.getTotalPages()); //retornamos um objeto que e uma pagina de curso
     }
 
     public CourseDTO findById(@NotNull @Positive Long id){

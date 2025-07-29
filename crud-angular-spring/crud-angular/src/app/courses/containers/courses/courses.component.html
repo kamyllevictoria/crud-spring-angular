@@ -3,6 +3,7 @@
     <span>Disponible Courses: </span>
   </mat-toolbar>
 
+  <!-- O *ngIf aqui é importante, mas impacta o @ViewChild. O setter no TS resolve. -->
   <div class="column-flex" *ngIf="courses$ | async as coursesPage; else loading">
     <app-courses-list
       class="card-content"

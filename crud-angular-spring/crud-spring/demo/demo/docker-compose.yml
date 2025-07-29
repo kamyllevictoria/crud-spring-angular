@@ -11,7 +11,7 @@ services:
       - '3307:3306'
     networks:
       - spring-net
-
+    volumes: [ mysql_data:/var/lib/mysql ]
   crud-spring:
     build: .
     ports:
@@ -28,3 +28,6 @@ services:
 networks:
   spring-net:
     driver: bridge
+
+volumes:
+  - mysql_data:

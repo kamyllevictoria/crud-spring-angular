@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
 import com.example.demo.dto.CourseDTO;
 import com.example.demo.dto.CoursePageDTO;
 import com.example.demo.service.CourseService;
@@ -33,8 +31,8 @@ public class CourseController {
    }
 
     @GetMapping
-    public CoursePageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int pageNumber, @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
-        return courseService.list(pageNumber, pageSize);
+    public CoursePageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int page, @RequestParam(defaultValue = "10") @Positive @Max(100) int size) {
+        return courseService.list(page, size);
     }
 
     @GetMapping("/{id}")

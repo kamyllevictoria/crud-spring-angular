@@ -22,27 +22,29 @@ public class CrudSpringApplication {
 	@Bean
 	CommandLineRunner initDatabase (CourseRepository courseRepository) {
 		return args -> {
-			courseRepository.deleteAll();
+			//courseRepository.deleteAll();
 
-			for(int i = 0; i < 20; i++){
-				Course c = new Course();
-				c.setName("Angular with Spring" + i);
-				c.setCategory((Category.FRONTEND));
-				c.setStatus(Status.ACTIVE);
+			if (courseRepository.count() == 0) {
+				for (int i = 1; i < 20; i++) {
+					Course c = new Course();
+					c.setName("Angular with Spring" + i);
+					c.setCategory((Category.FRONTEND));
+					c.setStatus(Status.ACTIVE);
 
-				Lesson l = new Lesson();
-				l.setName("Introdução");
-				l.setYoutubeUrl("watch?v=12312");
-				l.setCourse(c);
-				c.getLessons().add(l);
+					Lesson l = new Lesson();
+					l.setName("Introdução");
+					l.setYoutubeUrl("watch?v=12312");
+					l.setCourse(c);
+					c.getLessons().add(l);
 
-				Lesson l2 = new Lesson();
-				l2.setName("Angular");
-				l2.setYoutubeUrl("watch?v=27878");
-				l2.setCourse(c);
-				c.getLessons().add(l2);
+					Lesson l2 = new Lesson();
+					l2.setName("Angular");
+					l2.setYoutubeUrl("watch?v=27878");
+					l2.setCourse(c);
+					c.getLessons().add(l2);
 
-				courseRepository.save(c);
+					courseRepository.save(c);
+				}
 			}
 
 		};

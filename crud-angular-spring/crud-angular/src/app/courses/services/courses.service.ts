@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Course } from '../model/course';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'; // Importe HttpParams
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { delay, first, tap, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { CoursePage } from '../model/course-page';
@@ -18,13 +18,14 @@ export class CoursesService {
 
     let params = new HttpParams();
     params = params.append('page', page.toString());
-    params = params.append('size', pageSize.toString()); 
+    params = params.append('size', pageSize.toString());
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
 
-    return this.httpClient.get<CoursePage>(this.API, { params: params, headers: headers }) // Use params e headers
+    return this.httpClient.get<CoursePage>(this.API, { params: params, headers: headers })
     .pipe(
       first(),
       tap(coursePage => {
