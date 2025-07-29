@@ -3,6 +3,7 @@ import { Course } from '../model/course';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { delay, first, tap, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { CoursePage } from '../model/course-page';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CoursesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  list(): Observable<Course[]> {
+  list(): Observable<CoursePage> {
     console.log("Chamando API:", this.API);
 
     // headers
@@ -21,7 +22,7 @@ export class CoursesService {
       'Accept': 'application/json'
     });
 
-    return this.httpClient.get<Course[]>(this.API, { headers })
+    return this.httpClient.get<CoursePage>(this.API, { headers })
     .pipe(
       first(),
       //delay(5000),

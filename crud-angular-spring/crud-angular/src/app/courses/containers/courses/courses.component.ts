@@ -1,6 +1,6 @@
 import { ConfirmationDialogComponent } from './../../components/courses-list/confirmation-dialog/confirmation-dialog.component';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
 import { catchError, Observable } from 'rxjs';
@@ -11,6 +11,8 @@ import { tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CoursePage } from '../../model/course-page';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-courses',
@@ -21,9 +23,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CoursesComponent implements OnInit {
 
-  courses$: Observable<Course[]> | null = null;
+  courses$: Observable<CoursePage> | null = null;
   //courses: Course[] = []
   displayedColumns = ['name', 'category', 'actions'];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  pageIndex = 0;
+
+  pageSize = 10;
 
   constructor(
     private coursesService: CoursesService,
@@ -49,7 +57,7 @@ export class CoursesComponent implements OnInit {
             catchError(error => {
               console.error('Error fetching courses:', error);
               this.onError('Error loading courses');
-              return of([]);
+              return of({course: [], totalElements: 0, totalPages: 0} as CoursePage);
             })
     );
   }
