@@ -1,6 +1,6 @@
 import { ConfirmationDialogComponent } from './../../components/courses-list/confirmation-dialog/confirmation-dialog.component';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core'; // Adicionado AfterViewInit
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
 import { catchError, Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoursePage } from '../../model/course-page';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-courses',
@@ -21,17 +21,26 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrl: './courses.component.scss'
 })
 
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, AfterViewInit {
 
   courses$: Observable<CoursePage> | null = null;
-  //courses: Course[] = []
   displayedColumns = ['name', 'category', 'actions'];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  private _paginator!: MatPaginator;
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    if (mp) {
+      this._paginator = mp;
+      // Se o paginator já estiver disponível, podemos configurar o listener aqui
+      // Isso é útil se o *ngIf fizer com que o paginator não esteja disponível no AfterViewInit
+      this._paginator.page.subscribe((event: PageEvent) => this.refresh(event));
+    }
+  }
+
 
   pageIndex = 0;
-
   pageSize = 10;
+  totalElements = 0;
 
   constructor(
     private coursesService: CoursesService,
@@ -40,26 +49,35 @@ export class CoursesComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private snackBar: MatSnackBar,
-
   ) {
-    this.refresh();
   }
-
 
   ngOnInit(): void {
-
   }
 
-  refresh(){
-    this.courses$ = this.coursesService.list()
-          .pipe(
-            tap(courses => console.log('Courses received:', courses)),
-            catchError(error => {
-              console.error('Error fetching courses:', error);
-              this.onError('Error loading courses');
-              return of({course: [], totalElements: 0, totalPages: 0} as CoursePage);
-            })
-    );
+  ngAfterViewInit(): void {
+  
+    this.refresh({ length: this.totalElements, pageIndex: this.pageIndex, pageSize: this.pageSize });
+  }
+
+
+  refresh(pageEvent: PageEvent){
+    this.pageIndex = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
+
+    this.courses$ = this.coursesService.list(this.pageIndex, this.pageSize)
+      .pipe(
+        tap(coursePage => {
+          console.log('Courses received:', coursePage);
+          this.totalElements = coursePage.totalElements;
+        }),
+        catchError(error => {
+          console.error('Error fetching courses:', error);
+          this.onError('Error loading courses');
+
+          return of({course: [], totalElements: 0, totalPages: 0} as CoursePage);
+        })
+      );
   }
 
   onError(errorMsg: string) {
@@ -77,33 +95,27 @@ export class CoursesComponent implements OnInit {
   }
 
   onRemove(course: Course) {
-  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    data: 'Are you sure to delete this course?',
-  });
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure to delete this course?',
+    });
 
-  dialogRef.afterClosed().subscribe((result: boolean) => {
-    if (result) {
-      this.coursesService.remove(course._id).subscribe(
-        () => {
-          this.refresh();
-          this.snackBar.open('Course removed successfully!', 'X', {
-            duration: 4000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-          });
-        },
-        (error) => {
-          console.error('Error removing course:', error);
-          this.onError('Error removing course.');
-        }
-      );
-    }
-  });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.coursesService.remove(course._id).subscribe(
+          () => {
+            this.refresh({ length: this.totalElements, pageIndex: this.pageIndex, pageSize: this.pageSize });
+            this.snackBar.open('Course removed successfully!', 'X', {
+              duration: 4000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            });
+          },
+          (error) => {
+            console.error('Error removing course:', error);
+            this.onError('Error removing course.');
+          }
+        );
+      }
+    });
   }
-
-
-
-
-
-
 }

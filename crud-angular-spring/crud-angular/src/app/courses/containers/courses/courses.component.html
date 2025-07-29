@@ -3,30 +3,29 @@
     <span>Disponible Courses: </span>
   </mat-toolbar>
 
-
-  <div class="column-flex">
-
+  <div class="column-flex" *ngIf="courses$ | async as coursesPage; else loading">
     <app-courses-list
-    class="card-content"
-    *ngIf="courses$ | async as courses; else loading"
-    [courses]="courses.course "
-    (add) ="onAdd()"
-    (edit) = "onEdit($event)"
-    (remove)="onRemove($event)">
+      class="card-content"
+      [courses]="coursesPage.course"
+      (add)="onAdd()"
+      (edit)="onEdit($event)"
+      (remove)="onRemove($event)">
     </app-courses-list>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons
-        aria-label="Select page of periodic elements">
-      </mat-paginator>
-
-    <ng-template #loading>
-      <div class="loading-spinner">
-        <mat-spinner></mat-spinner>
-      </div>
-    </ng-template>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15]"
+      showFirstLastButtons
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [length]="totalElements"
+      (page)="refresh($event)"
+      aria-label="Select page of courses">
+    </mat-paginator>
   </div>
+
+  <ng-template #loading>
+    <div class="loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </mat-card>
-
-
-
