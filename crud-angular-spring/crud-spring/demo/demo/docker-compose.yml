@@ -30,4 +30,4 @@ networks:
     driver: bridge
 
 volumes:
-  - mysql_data:
+  mysql_data:
